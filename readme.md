@@ -4,7 +4,7 @@
 - David Leon
 - Juan David Chaves
 - Santiago Torres
-- Gabriela 
+- Gabriela Orozco
 - Alejandro Tosne
 - Sebastián Astudillo
 
