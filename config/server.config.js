@@ -1,18 +1,20 @@
 import Express from 'express';
 import dbConnect from './db.config.js';
 import authRouter from '../routes/auth.routes.js';
+import postRouter from '../routes/post.routes.js';
 
 
-class Server {
+export default class Server {
 
     constructor() {
         this.port = process.env.PORT;
         this.app = Express();
 
         this.paths = {
-            auth: '/api/v1/auth'
+            auth: '/api/v1/auth',
+            posts: '/api/v1/posts'
         }
-        
+
         this.dbConnect();
         this.middlewares();
         this.routes();
@@ -29,6 +31,7 @@ class Server {
 
     routes() {
         this.app.use(this.paths.auth, authRouter);
+        this.app.use(this.paths.posts, postRouter)
     }
 
     listen() {
@@ -37,5 +40,3 @@ class Server {
         });
     }
 }
-
-export default Server;

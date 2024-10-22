@@ -2,6 +2,7 @@ import { request } from 'express';
 import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import { generateToken } from '../helpers/generate-token.js';
+import { generateJwt } from '../helpers/generate-jwt.js';
 
 
 export const createUser = async (req = request, res = response) => {
@@ -43,9 +44,9 @@ export const createUser = async (req = request, res = response) => {
             user
         });
     } catch (error) {
-        
+
         console.error(error);
-        
+
         res.status(500).json({
             message: 'Something went broke.'
         });
@@ -54,16 +55,46 @@ export const createUser = async (req = request, res = response) => {
 }
 
 
+export const login = async (req = request, res = response) => {
+
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user || !user.status) {
+            return res.status(404).json({
+                message: `Account with email ${email} doesn´t exists`
+            });
+        }
+
+        if (!bcrypt.compareSync(password, user.password)) {
+            return res.status(401).json({
+                message: 'Invalid credentials'
+            });
+        }
+
+        const jwt = generateJwt(user._id);
+
+        return res.status(200).json({ user, jwt });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            message: 'Something went broke.'
+        })
+    }
+}
+
 export const confirmUser = async (req = request, res = response) => {
-    
+
     try {
 
         const { token } = req.params;
         const user = await User.findOne({ token });
 
-        if(!user) {
+        if (!user) {
             return res.status(404).json({
-                message:'Token is invalid or has expired.'
+                message: 'Token is invalid or has expired.'
             });
         }
 
@@ -80,7 +111,7 @@ export const confirmUser = async (req = request, res = response) => {
     } catch (error) {
 
         console.error(error);
-        
+
         res.status(500).json({
             message: 'Something went broke.'
         });

@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js",
+    "dev": "nodemon --exec \"cls && node app\"",
     "dev:seeds": ""
   }
 }
