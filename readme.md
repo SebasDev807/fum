@@ -12,8 +12,8 @@
 
 | Método | Endpoint                     | Descripción                        | Cuerpo/Parámetros                    |
 |--------|------------------------------|------------------------------------|--------------------------------------|
-| POST   | `/api/register`              | Registra un nuevo usuario          | `{ email: string, password: string, username: string }` |
-| GET    | `/api/confirm/:token`        | Confirma la cuenta del usuario     | `token: string` en los parámetros    |
+| POST   | `/api/v1/auth/register`              | Registra un nuevo usuario          | `{ email: string, password: string, username: string }` |
+| GET    | `/api/v1/auth/verify/:token`        | Confirma la cuenta del usuario     | `token: string` en los parámetros    |
 
 ## Instrucciones de Inicialización
 
