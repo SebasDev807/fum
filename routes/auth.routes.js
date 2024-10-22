@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { confirmUser, createUser } from "../controllers/auth.controller.js";
+import { confirmUser, createUser, login } from "../controllers/auth.controller.js";
 import { isUnimayor } from "../helpers/is-unimayor-email.js";
 import { isSecurePassword } from "../helpers/is-secure-password.js";
 import { checkValidationResult } from "../middlewares/check-validation-result.js";
@@ -24,6 +24,12 @@ authRouter.post('/register', [
     checkValidationResult
 
 ], createUser);
+
+authRouter.post('login', [
+    check('email').custom(isUnimayor),
+    check('password').not().isEmpty(),
+    checkValidationResult
+],login);
 
 authRouter.get('/verify/:token', confirmUser);
 
